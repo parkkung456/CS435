@@ -29,16 +29,16 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    if (pid == 0) { // Child process
-        close(pipefd[1]); // Close the write end of the pipe
-        dup2(pipefd[0], STDIN_FILENO); // Redirect stdin to read from the pipe
-        close(pipefd[0]); // Close the read end of the pipe
+    if (pid == 0) { // Child Process
+        close(pipefd[1]); // ปิด pipe ที่เขียน
+        dup2(pipefd[0], STDIN_FILENO); // เปลี่ยน stdin เพื่ออ่านจาก pipe
+        close(pipefd[0]); // ปิด pipe ที่อ่าน
 
-        execlp("wc", "wc", "-l", NULL); // Execute wc -l command
+        execlp("wc", "wc", "-l", NULL); // ให้ใช้คำสั่ง wc -l
         perror("exec");
         exit(EXIT_FAILURE);
-    } else { // Parent process
-        close(pipefd[0]); // Close the read end of the pipe
+    } else { // Parent Process
+        close(pipefd[0]); // ปิด pipe ที่อ่าน
 
         char buffer[BUFFER_SIZE];
         ssize_t bytes_read;
@@ -50,13 +50,12 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        close(pipefd[1]); // Close the write end of the pipe
+        close(pipefd[1]); // ปิดส่วน pipe ที่เขียน
         fclose(file);
 
-        // Wait for the child process to finish
+        // รอ Child Process จบการทำงาน
         wait(NULL);
     }
 
     return EXIT_SUCCESS;
 }
-

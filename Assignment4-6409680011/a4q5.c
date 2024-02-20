@@ -1,5 +1,5 @@
 #include "apue.h"
-
+#include <sys/wait.h>
 int main(void) {
     int n;
     int pipe1[2], pipe2[2]; // กำหนด pipe สองตัว
