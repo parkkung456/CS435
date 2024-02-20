@@ -1,5 +1,6 @@
 #include "apue.h"
 #include <sys/wait.h>
+
 int main(void) {
     int n;
     int pipe1[2], pipe2[2]; // กำหนด pipe สองตัว
@@ -20,7 +21,7 @@ int main(void) {
         
         waitpid(pid1, NULL, 0); // รอกระบวนการลูก
         
-    } else { // กระบวนการลูก 1
+    } else { // Child Process 1
         if ((pid2 = fork()) < 0) {
             err_sys("fork error");
         } else if (pid2 > 0) { // กระบวนการลูก 1
@@ -36,7 +37,7 @@ int main(void) {
             write(pipe2[1], line, n); // เขียนไปmuj pipe 2
             
             waitpid(pid2, NULL, 0); // รอ Child Process 2
-        } else { // กระบวนการลูก 2
+        } else { // Child Process 2
             close(pipe1[0]); // ปิดที่อ่านของ pipe 1
             close(pipe1[1]); // ปิดที่เขียนของ pipe 1
             close(pipe2[1]); // ปิดที่เขียนของ pipe 2
